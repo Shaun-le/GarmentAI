@@ -30,14 +30,6 @@ class FeatureHasher(BaseEstimator, TransformerMixin):
 
 fh = FeatureHasher(num_buckets=1600)
 
-DL_TSPS = ['D010', 'D008',
-       'D007', 'D001', 'D009', 'D003', 'D012', 'D011', 'D002', 'D005', 'D004',
-       'G003', 'D006', 'G001']
-
-CD_TSPS = ['GCC1','GCTA1', 'GDT3', 'GDX', 'GDDS1', 'GGDDS2', 'GGCTA1', 'GCG3', 'GDT1',
-       'GDC1', 'GCTA2', 'GDDS2', 'GCC2', 'GCG2', 'GGCC2', 'GDC2', 'GGCG2',
-       'GGCTA2', 'GCG1', 'GDN1', 'GDN2']
-
 def hash_encode(data):
     dt = pd.Series(extract_values(data))
     data_transformed = fh.fit_transform(dt)
