@@ -1,12 +1,7 @@
 # Import libraries
-import joblib
-import numpy as np
 from flask import Flask, request, jsonify
 import pickle
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.multioutput import MultiOutputClassifier
-from sklearn.tree import DecisionTreeClassifier
 import hashlib
 from sklearn.base import BaseEstimator, TransformerMixin
 from labels import TSPS
@@ -117,7 +112,7 @@ def main():
             model = select_model('model/T-shirt/DL_TSPS.pkl')
             result = pred_and_decode_classifier(model,data,TSPS.DL, TSPS.DL_original)
         elif data.get('Task') == "QTCN":
-            model = select_model('model/T-shirt/QTCN_TSPS_ver2.pkl')
+            model = select_model('model/T-shirt/QTCN_TSPS_Ver3.pkl')
             result = pred_and_decode_classifier(model,data,TSPS.QTCN,TSPS.QTCN_original)
         elif data.get('Task') == 'CD':
             model = select_model('model/T-shirt/CD_TSPS.pkl')
