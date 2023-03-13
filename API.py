@@ -112,7 +112,7 @@ def main():
             model = select_model('model/T-shirt/DL_TSPS.pkl')
             result = pred_and_decode_classifier(model,data,TSPS.DL, TSPS.DL_original)
         elif data.get('Task') == "QTCN":
-            model = select_model('model/T-shirt/QTCN_TSPS_Ver3.pkl')
+            model = select_model('model/T-shirt/QTCN_TSPS_Ver5.pkl')
             result = pred_and_decode_classifier(model,data,TSPS.QTCN,TSPS.QTCN_original)
         elif data.get('Task') == 'CD':
             model = select_model('model/T-shirt/CD_TSPS.pkl')
