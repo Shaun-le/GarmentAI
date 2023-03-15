@@ -4,6 +4,8 @@ import pickle
 import pandas as pd
 import hashlib
 from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.preprocessing import LabelEncoder
+
 from labels import TSPS
 
 app = Flask(__name__)
@@ -45,6 +47,15 @@ def pred_and_decode_classifier(model,data,label,list):
 
     re = ", ".join(result)
     r = jsonify({"prediction": re})
+    return r
+
+def pred_and_decode_classifier_TKDT(model,data,label):
+    data_transformed = pd.Series(extract_strings_and_numbers_from_dict(data))
+    pred = model.predict([data_transformed])[0]
+    encoder = LabelEncoder()
+    encoder.fit_transform(label)
+    re = encoder.inverse_transform([pred])
+    r = jsonify({"prediction": re[0]})
     return r
 
 def predict_regression(model,data):
@@ -114,6 +125,9 @@ def main():
         elif data.get('Task') == "QTCN":
             model = select_model('model/T-shirt/QTCN_TSPS.pkl')
             result = pred_and_decode_classifier(model,data,TSPS.QTCN,TSPS.QTCN_original)
+        elif data.get('Task') == "TKDT":
+            model = select_model('model/T-shirt/TKDT_TSPS.pkl')
+            result =pred_and_decode_classifier_TKDT(model,data,TSPS.TKDT_original)
         elif data.get('Task') == 'CD':
             model = select_model('model/T-shirt/CD_TSPS.pkl')
             result = pred_and_decode_classifier(model,data,TSPS.CD,TSPS.CD_original)
