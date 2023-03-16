@@ -34,11 +34,13 @@ def hash_encode(data):
 
 def pred_and_decode_classifier(model,data,label,list):
     data_transformed = hash_encode(data)
+    print(data_transformed)
     pred = model.predict([data_transformed])[0]
     result = []
     for i, p in enumerate(pred):
         if p == 1:
             result.append(label[i])
+    print(result)
 
     for q in list:
         if len(result) == len(q) and all(x in result for x in q) and all(x in q for x in result):
@@ -103,41 +105,46 @@ def select_model(model_path:str):
 @app.route('/api', methods = ['POST'])
 def main():
     data = request.get_json(force=True)
-    if data.get('Product') == "TSPS":
-        if data.get('Task') == "NS":
-            model = select_model('model/T-shirt/NS_TSPS.pkl')
-            result = predict_regression(model,data)
-        elif data.get('Task') == "DMC":
-            model = select_model('model/T-shirt/DMC_TSPS.pkl')
-            result = predict_regression_multi(model,data)
-        elif data.get('Task') == "DMV":
-            model = select_model('model/T-shirt/DMV_TSPS.pkl')
-            result = predict_regression_multi(model,data)
-        elif data.get('Task') == 'NCLD':
-            model = select_model('model/T-shirt/NCLD_TSPS.pkl')
-            result = predict_regression_multi(model,data)
-        elif data.get('Task') == 'DMTB':
-            model = select_model('model/T-shirt/DMTB_TSPS.pkl')
-            result = predict_regression_multi(model,data)
-        elif data.get('Task') == "DL":
-            model = select_model('model/T-shirt/DL_TSPS.pkl')
-            result = pred_and_decode_classifier(model,data,TSPS.DL, TSPS.DL_original)
-        elif data.get('Task') == "QTCN":
-            model = select_model('model/T-shirt/QTCN_TSPS.pkl')
-            result = pred_and_decode_classifier(model,data,TSPS.QTCN,TSPS.QTCN_original)
-        elif data.get('Task') == "TKDT":
-            model = select_model('model/T-shirt/TKDT_TSPS.pkl')
-            result =pred_and_decode_classifier_TKDT(model,data,TSPS.TKDT_original)
-        elif data.get('Task') == 'CD':
-            model = select_model('model/T-shirt/CD_TSPS.pkl')
-            result = pred_and_decode_classifier(model,data,TSPS.CD,TSPS.CD_original)
-        elif data.get('Task') == 'TCKT':
-            model = select_model('model/T-shirt/TCKT_TSPS.pkl')
-            result = pred_and_decode_classifier(model,data,TSPS.TCKT, TSPS.TCKT_original)
-    elif data.get('Product') == "SM":
-        if data.get("Task") == "QTCN":
-            result = jsonify({"prediction":"test"})
-    else: result = jsonify({"Prediction":"Incorrect Product"})
+    product = data.get('Product')
+    task = data.get('Task')
+    result = {}
+
+    if product == 'TSPS':
+        model_map = {
+            'NS': 'model/T-shirt/NS_TSPS.pkl',
+            'DMC': 'model/T-shirt/DMC_TSPS.pkl',
+            'DMV': 'model/T-shirt/DMV_TSPS.pkl',
+            'NCLD': 'model/T-shirt/NCLD_TSPS.pkl',
+            'DMTB': 'model/T-shirt/DMTB_TSPS.pkl',
+            'DL': 'model/T-shirt/DL_TSPS.pkl',
+            'QTCN': 'model/T-shirt/QTCN_TSPS.pkl',
+            'TKDT': 'model/T-shirt/TKDT_TSPS.pkl',
+            'CD': 'model/T-shirt/CD_TSPS.pkl',
+            'TCKT': 'model/T-shirt/TCKT_TSPS.pkl',
+        }
+        if task in model_map:
+            model_path = model_map[task]
+            if task == 'NS':
+                result = predict_regression(select_model(model_path),data)
+            elif task == 'DL':
+                result = pred_and_decode_classifier(select_model(model_path), data, TSPS.DL, TSPS.DL_original)
+            elif task == 'QTCN':
+                result = pred_and_decode_classifier(select_model(model_path), data, TSPS.QTCN, TSPS.QTCN_original)
+            elif task == 'TKDT':
+                result = pred_and_decode_classifier_TKDT(select_model(model_path), data, TSPS.TKDT_original)
+            elif task in ['CD', 'TCKT']:
+                result = pred_and_decode_classifier(select_model(model_path), data, getattr(TSPS, task), getattr(TSPS, task+'_original'))
+            else:
+                result = predict_regression_multi(select_model(model_path), data)
+        else:
+            result = jsonify({"Prediction": "Incorrect Task"})
+    elif product == 'SM':
+        if task == 'QTCN':
+            result = jsonify({"prediction": "test"})
+        else:
+            result = jsonify({"Prediction": "Incorrect Task"})
+    else:
+        result = jsonify({"Prediction": "Incorrect Product"})
     return result
 
 if __name__ == '__main__':
