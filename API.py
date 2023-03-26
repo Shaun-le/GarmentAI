@@ -5,8 +5,7 @@ import pandas as pd
 import hashlib
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.preprocessing import LabelEncoder
-
-from labels import TSPS
+from labels import TSPS, SM
 
 app = Flask(__name__)
 
@@ -34,13 +33,11 @@ def hash_encode(data):
 
 def pred_and_decode_classifier(model,data,label,list):
     data_transformed = hash_encode(data)
-    print(data_transformed)
     pred = model.predict([data_transformed])[0]
     result = []
     for i, p in enumerate(pred):
         if p == 1:
             result.append(label[i])
-    print(result)
 
     for q in list:
         if len(result) == len(q) and all(x in result for x in q) and all(x in q for x in result):
@@ -77,7 +74,7 @@ def predict_regression_multi(model,data):
 
 def extract_values(data):
     values = []
-    for key in sorted(data.keys()):
+    for key in data.keys():
         if key.startswith("X"):
             values.append(data[key])
     return values
@@ -139,8 +136,33 @@ def main():
         else:
             result = jsonify({"Prediction": "Incorrect Task"})
     elif product == 'SM':
-        if task == 'QTCN':
-            result = jsonify({"prediction": "test"})
+        model_map = {
+            'NS': 'model/Sơ Mi/NS_SM.pkl',
+            'DMC': 'model/Sơ Mi/DMC_SM.pkl',
+            'DMV': 'model/Sơ Mi/DMV_SM.pkl',
+            'NCLD': 'model/Sơ Mi/NCLD_SM.pkl',
+            'DMTB': 'model/Sơ Mi/DMTB_SM.pkl',
+            'DL': 'model/Sơ Mi/DL_SM.pkl',
+            'QTCN': 'model/Sơ Mi/QTCN_SM.pkl',
+            'TKDT': 'model/T-shirt/TKDT_TSPS.pkl',
+            'CD': 'model/Sơ Mi/CD_SM.pkl',
+            'TCKT': 'model/Sơ Mi/TCKT_SM.pkl',
+        }
+        if task in model_map:
+            model_path = model_map[task]
+            if task == 'NS':
+                result = predict_regression(select_model(model_path), data)
+            elif task == 'DL':
+                result = pred_and_decode_classifier(select_model(model_path), data, SM.DL, SM.DL_original)
+            elif task == 'QTCN':
+                result = pred_and_decode_classifier(select_model(model_path), data, SM.QTCN, SM.QTCN_original)
+            elif task == 'TKDT':
+                result = pred_and_decode_classifier_TKDT(select_model(model_path), data, TSPS.TKDT_original)
+            elif task in ['CD', 'TCKT']:
+                result = pred_and_decode_classifier(select_model(model_path), data, getattr(SM, task),
+                                                    getattr(SM, task + '_original'))
+            else:
+                result = predict_regression_multi(select_model(model_path), data)
         else:
             result = jsonify({"Prediction": "Incorrect Task"})
     else:
