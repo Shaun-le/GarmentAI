@@ -115,7 +115,7 @@ def main():
             'DMTB': 'model/T-shirt/DMTB_TSPS.pkl',
             'DL': 'model/T-shirt/DL_TSPS.pkl',
             'QTCN': 'model/T-shirt/QTCN_TSPS.pkl',
-            'TKDT': 'model/T-shirt/TKDT_TSPS.pkl',
+            'TKDC': 'model/T-shirt/TKDT_TSPS.pkl',
             'CD': 'model/T-shirt/CD_TSPS.pkl',
             'TCKT': 'model/T-shirt/TCKT_TSPS.pkl',
         }
@@ -127,7 +127,7 @@ def main():
                 result = pred_and_decode_classifier(select_model(model_path), data, TSPS.DL, TSPS.DL_original)
             elif task == 'QTCN':
                 result = pred_and_decode_classifier(select_model(model_path), data, TSPS.QTCN, TSPS.QTCN_original)
-            elif task == 'TKDT':
+            elif task == 'TKDC':
                 result = pred_and_decode_classifier_TKDT(select_model(model_path), data, TSPS.TKDT_original)
             elif task in ['CD', 'TCKT']:
                 result = pred_and_decode_classifier(select_model(model_path), data, getattr(TSPS, task), getattr(TSPS, task+'_original'))
@@ -144,7 +144,7 @@ def main():
             'DMTB': 'model/Sơ Mi/DMTB_SM.pkl',
             'DL': 'model/Sơ Mi/DL_SM.pkl',
             'QTCN': 'model/Sơ Mi/QTCN_SM.pkl',
-            'TKDT': 'model/T-shirt/TKDT_TSPS.pkl',
+            'TKDC': 'model/T-shirt/TKDT_TSPS.pkl',
             'CD': 'model/Sơ Mi/CD_SM.pkl',
             'TCKT': 'model/Sơ Mi/TCKT_SM.pkl',
         }
@@ -156,7 +156,7 @@ def main():
                 result = pred_and_decode_classifier(select_model(model_path), data, SM.DL, SM.DL_original)
             elif task == 'QTCN':
                 result = pred_and_decode_classifier(select_model(model_path), data, SM.QTCN, SM.QTCN_original)
-            elif task == 'TKDT':
+            elif task == 'TKDC':
                 result = pred_and_decode_classifier_TKDT(select_model(model_path), data, TSPS.TKDT_original)
             elif task in ['CD', 'TCKT']:
                 result = pred_and_decode_classifier(select_model(model_path), data, getattr(SM, task),
