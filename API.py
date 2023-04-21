@@ -5,7 +5,7 @@ import pandas as pd
 import hashlib
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.preprocessing import LabelEncoder
-from labels import TSPS, SM
+from labels import TSPS, SM, Q
 
 app = Flask(__name__)
 
@@ -161,6 +161,36 @@ def main():
             elif task in ['CD', 'TCKT']:
                 result = pred_and_decode_classifier(select_model(model_path), data, getattr(SM, task),
                                                     getattr(SM, task + '_original'))
+            else:
+                result = predict_regression_multi(select_model(model_path), data)
+        else:
+            result = jsonify({"Prediction": "Incorrect Task"})
+    elif product == "Q":
+        model_map = {
+            'NS': 'model/Quần/NS_Q.pkl',
+            'DMC': 'model/Quần/DMC_Q.pkl',
+            'DMV': 'model/Quần/DMV_Q.pkl',
+            'NCLD': 'model/Quần/NCLD_Q.pkl',
+            'DMTB': 'model/Quần/DMTB_Q.pkl',
+            'DL': 'model/Quần/DL_Q.pkl',
+            'QTCN': 'model/Quần/QTCN_Q.pkl',
+            'TKDC': 'model/Quần/TKDC_Q.pkl',
+            'CD': 'model/Quần/CD_Q.pkl',
+            'TCKT': 'model/Quần/TCKT_Q.pkl',
+        }
+        if task in model_map:
+            model_path = model_map[task]
+            if task == 'NS':
+                result = predict_regression(select_model(model_path), data)
+            elif task == 'DL':
+                result = pred_and_decode_classifier(select_model(model_path), data, Q.DL, Q.DL_original)
+            elif task == 'QTCN':
+                result = pred_and_decode_classifier(select_model(model_path), data, Q.QTCN, Q.QTCN_original)
+            elif task == 'TKDC':
+                result = pred_and_decode_classifier_TKDT(select_model(model_path), data, Q.TKDC_original)
+            elif task in ['CD', 'TCKT']:
+                result = pred_and_decode_classifier(select_model(model_path), data, getattr(Q, task),
+                                                    getattr(Q, task + '_original'))
             else:
                 result = predict_regression_multi(select_model(model_path), data)
         else:
