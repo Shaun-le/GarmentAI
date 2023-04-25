@@ -144,7 +144,7 @@ def main():
             'DMTB': 'model/Sơ Mi/DMTB_SM.pkl',
             'DL': 'model/Sơ Mi/DL_SM.pkl',
             'QTCN': 'model/Sơ Mi/QTCN_SM.pkl',
-            'TKDC': 'model/T-shirt/TKDT_TSPS.pkl',
+            'TKDC': 'model/Sơ Mi/TKDC_SM.pkl',
             'CD': 'model/Sơ Mi/CD_SM.pkl',
             'TCKT': 'model/Sơ Mi/TCKT_SM.pkl',
         }
@@ -157,7 +157,7 @@ def main():
             elif task == 'QTCN':
                 result = pred_and_decode_classifier(select_model(model_path), data, SM.QTCN, SM.QTCN_original)
             elif task == 'TKDC':
-                result = pred_and_decode_classifier_TKDT(select_model(model_path), data, TSPS.TKDT_original)
+                result = pred_and_decode_classifier_TKDT(select_model(model_path), data, SM.TKDC_original)
             elif task in ['CD', 'TCKT']:
                 result = pred_and_decode_classifier(select_model(model_path), data, getattr(SM, task),
                                                     getattr(SM, task + '_original'))
