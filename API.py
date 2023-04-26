@@ -109,6 +109,7 @@ def main():
     if product == 'TSPS':
         model_map = {
             'NS': 'model/T-shirt/NS_TSPS.pkl',
+            'TGGC': 'model/T-shirt/TGGC_TSPS.pkl',
             'DMC': 'model/T-shirt/DMC_TSPS.pkl',
             'DMV': 'model/T-shirt/DMV_TSPS.pkl',
             'NCLD': 'model/T-shirt/NCLD_TSPS.pkl',
@@ -121,7 +122,7 @@ def main():
         }
         if task in model_map:
             model_path = model_map[task]
-            if task == 'NS':
+            if task in ['NS','TGGC']:
                 result = predict_regression(select_model(model_path),data)
             elif task == 'DL':
                 result = pred_and_decode_classifier(select_model(model_path), data, TSPS.DL, TSPS.DL_original)
@@ -138,6 +139,7 @@ def main():
     elif product == 'SM':
         model_map = {
             'NS': 'model/Sơ Mi/NS_SM.pkl',
+            'TGGC': 'model/Sơ Mi/TGGC_SM.pkl',
             'DMC': 'model/Sơ Mi/DMC_SM.pkl',
             'DMV': 'model/Sơ Mi/DMV_SM.pkl',
             'NCLD': 'model/Sơ Mi/NCLD_SM.pkl',
@@ -150,7 +152,7 @@ def main():
         }
         if task in model_map:
             model_path = model_map[task]
-            if task == 'NS':
+            if task in ['NS','TGGC']:
                 result = predict_regression(select_model(model_path), data)
             elif task == 'DL':
                 result = pred_and_decode_classifier(select_model(model_path), data, SM.DL, SM.DL_original)
