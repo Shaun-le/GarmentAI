@@ -170,6 +170,7 @@ def main():
     elif product == "Q":
         model_map = {
             'NS': 'model/Quần/NS_Q.pkl',
+            'TGGC': 'model/Quần/TGGC_Q.pkl',
             'DMC': 'model/Quần/DMC_Q.pkl',
             'DMV': 'model/Quần/DMV_Q.pkl',
             'NCLD': 'model/Quần/NCLD_Q.pkl',
@@ -182,7 +183,7 @@ def main():
         }
         if task in model_map:
             model_path = model_map[task]
-            if task == 'NS':
+            if task in ['NS','TGGC']:
                 result = predict_regression(select_model(model_path), data)
             elif task == 'DL':
                 result = pred_and_decode_classifier(select_model(model_path), data, Q.DL, Q.DL_original)
