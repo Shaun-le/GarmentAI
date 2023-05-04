@@ -200,17 +200,18 @@ def main():
             result = jsonify({"Prediction": "Incorrect Task"})
     elif product == "J":
         model_map = {
-            'NS': 'model/Quần/NS_Q.pkl',
-            'TGGC': 'model/Quần/TGGC_Q.pkl',
-            'DMC': 'model/Quần/DMC_Q.pkl',
-            'DMV': 'model/Quần/DMV_Q.pkl',
-            'NCLD': 'model/Quần/NCLD_Q.pkl',
-            'DMTB': 'model/Quần/DMTB_Q.pkl',
+            'NS': 'model/Jacket/NS_J.pkl',
+            'TGGC': 'model/Jacket/TGGC_J.pkl',
+            'DMC': 'model/Jacket/DMC_J.pkl',
+            'DMVC': 'model/Jacket/DMVC_J.pkl',
+            'DMVL': 'model/Jacket/DMVL_J.pkl',
+            'NCLD': 'model/Jacket/NCLD_J.pkl',
+            'DMTB': 'model/Jacket/DMTB_J.pkl',
             'DL': 'model/Jacket/DL_J.pkl',
             'QTCN': 'model/Quần/QTCN_Q.pkl',
             'TKDC': 'model/Quần/TKDC_Q.pkl',
-            'CD': 'model/Quần/CD_Q.pkl',
-            'TCKT': 'model/Quần/TCKT_Q.pkl',
+            'CD': 'model/Jacket/CD_J.pkl',
+            'TCKT': 'model/Jacket/TCKT_J.pkl',
         }
         if task in model_map:
             model_path = model_map[task]
@@ -223,8 +224,8 @@ def main():
             elif task == 'TKDC':
                 result = pred_and_decode_classifier_TKDT(select_model(model_path), data, Q.TKDC_original)
             elif task in ['CD', 'TCKT']:
-                result = pred_and_decode_classifier(select_model(model_path), data, getattr(Q, task),
-                                                    getattr(Q, task + '_original'))
+                result = pred_and_decode_classifier(select_model(model_path), data, getattr(J, task),
+                                                    getattr(J, task + '_original'))
             else:
                 result = predict_regression_multi(select_model(model_path), data)
         else:
