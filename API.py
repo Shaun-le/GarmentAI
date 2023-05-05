@@ -208,7 +208,7 @@ def main():
             'NCLD': 'model/Jacket/NCLD_J.pkl',
             'DMTB': 'model/Jacket/DMTB_J.pkl',
             'DL': 'model/Jacket/DL_J.pkl',
-            'QTCN': 'model/Quần/QTCN_Q.pkl',
+            'QTCN': 'model/Jacket/QTCN_J.pkl',
             'TKDC': 'model/Quần/TKDC_Q.pkl',
             'CD': 'model/Jacket/CD_J.pkl',
             'TCKT': 'model/Jacket/TCKT_J.pkl',
@@ -220,7 +220,7 @@ def main():
             elif task == 'DL':
                 result = pred_and_decode_classifier(select_model(model_path), data, J.DL, J.DL_original)
             elif task == 'QTCN':
-                result = pred_and_decode_classifier(select_model(model_path), data, Q.QTCN, Q.QTCN_original)
+                result = pred_and_decode_classifier(select_model(model_path), data, J.QTCN, J.QTCN_original)
             elif task == 'TKDC':
                 result = pred_and_decode_classifier_TKDT(select_model(model_path), data, Q.TKDC_original)
             elif task in ['CD', 'TCKT']:
