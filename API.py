@@ -260,9 +260,40 @@ def main():
                 result = predict_regression_multi(select_model(model_path), data)
         else:
             result = jsonify({"Prediction": "Incorrect Task"})
+    elif product == "VEST":
+        model_map = {
+            'NS': 'model/Vest/NS_V.pkl',
+            'DMC': 'model/Vest/DMC_V.pkl',
+            'DMV': 'model/BHLD/DMV_BH.pkl',
+            'NCLD': 'model/Vest/NCLD_V.pkl',
+            'DMTB': 'model/Vest/DMTB_V.pkl',
+            'DL': 'model/BHLD/DL_BH.pkl',
+            'QTCN': 'model/BHLD/QTCN_BH.pkl',
+            'TKDC': 'model/Quần/TKDC_Q.pkl',
+            'CD': 'model/BHLD/CD_BH.pkl',
+            'TCKT': 'model/BHLD/TCKT_BH.pkl',
+            'TGGC': 'model/Vest/TGGC_V.pkl'
+        }
+        if task in model_map:
+            model_path = model_map[task]
+            if task == 'NS':
+                result = predict_regression(select_model(model_path), data)
+            elif task == 'DL':
+                result = pred_and_decode_classifier(select_model(model_path), data, BHLD.DL, BHLD.DL_original)
+            elif task == 'QTCN':
+                result = pred_and_decode_classifier(select_model(model_path), data, BHLD.QTCN, BHLD.QTCN_original)
+            elif task == 'TKDC':
+                result = pred_and_decode_classifier_TKDT(select_model(model_path), data, Q.TKDC_original)
+            elif task in ['CD', 'TCKT']:
+                result = pred_and_decode_classifier(select_model(model_path), data, getattr(BHLD, task),
+                                                    getattr(BHLD, task + '_original'))
+            else:
+                result = predict_regression_multi(select_model(model_path), data)
+        else:
+            result = jsonify({"Prediction": "Incorrect Task"})
     else:
         result = jsonify({"Prediction": "Incorrect Product"})
     return result
 
 if __name__ == '__main__':
-    app.run(port=5005, debug=True)
+    app.run(debug=True)
