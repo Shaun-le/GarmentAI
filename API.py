@@ -72,6 +72,15 @@ def predict_regression_multi(model,data):
     r = jsonify({"prediction": re})
     return r
 
+def predict_regression_multi_4J(model,data):
+    data_transformed = extract_strings_and_numbers_from_dict(data)
+    pred = model.predict(data_transformed.values.reshape(1, -1))
+    re = []
+    for i in [round(float(i), 2) for i in pred[0]]:
+        re.append(i)
+    r = jsonify({"prediction": re})
+    return r
+
 def extract_values(data):
     values = []
     for key in data.keys():
@@ -217,6 +226,8 @@ def main():
             model_path = model_map[task]
             if task in ['NS', 'TGGC']:
                 result = predict_regression(select_model(model_path), data)
+            elif task == 'DMVC':
+                result = predict_regression_multi_4J(select_model(model_path), data)
             elif task == 'DL':
                 result = pred_and_decode_classifier(select_model(model_path), data, J.DL, J.DL_original)
             elif task == 'QTCN':
