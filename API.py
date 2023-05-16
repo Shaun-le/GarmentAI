@@ -63,8 +63,9 @@ def predict_regression(model,data):
     r = jsonify({"prediction": pred[0]})
     return r
 
-def predict_regression_Q_DMV(model,data):
-    data_transformed = hash_encode(data)
+def predict_regression_V2(model,data):
+    data_transformed = extract_strings_and_numbers_from_dict(data)
+    #print(data_transformed)
     pred = model.predict(data_transformed.values.reshape(1, -1))
     r = jsonify({"prediction": pred[0][0]})
     return r
@@ -130,8 +131,8 @@ def main():
             model_path = model_map[task]
             if task in ['NS','TGGC']:
                 result = predict_regression(select_model(model_path),data)
-            if task == 'DMC':
-                result = predict_regression(select_model(model_path), data)
+            if task in ['DMC','DMV']:
+                result = predict_regression_V2(select_model(model_path), data)
             elif task == 'DL':
                 result = pred_and_decode_classifier(select_model(model_path), data, TSPS.DL, TSPS.DL_original)
             elif task == 'QTCN':
@@ -163,7 +164,7 @@ def main():
             if task in ['NS','TGGC']:
                 result = predict_regression(select_model(model_path), data)
             elif task == 'DMC':
-                result = predict_regression(select_model(model_path), data)
+                result = predict_regression_V2(select_model(model_path), data)
             elif task == 'DL':
                 result = pred_and_decode_classifier(select_model(model_path), data, SM.DL, SM.DL_original)
             elif task == 'QTCN':
@@ -196,7 +197,7 @@ def main():
             if task in ['NS','TGGC']:
                 result = predict_regression(select_model(model_path), data)
             elif task == 'DMV':
-                result = predict_regression_Q_DMV(select_model(model_path), data)
+                result = predict_regression_V2(select_model(model_path), data)
             elif task == 'DL':
                 result = pred_and_decode_classifier(select_model(model_path), data, Q.DL, Q.DL_original)
             elif task == 'QTCN':
@@ -260,7 +261,7 @@ def main():
             if task == 'NS':
                 result = predict_regression(select_model(model_path), data)
             elif task == 'DMC':
-                result = predict_regression(select_model(model_path), data)
+                result = predict_regression_V2(select_model(model_path), data)
             elif task == 'DL':
                 result = pred_and_decode_classifier(select_model(model_path), data, BHLD.DL, BHLD.DL_original)
             elif task == 'QTCN':
@@ -293,7 +294,7 @@ def main():
             if task == 'NS':
                 result = predict_regression(select_model(model_path), data)
             elif task == 'DMC':
-                result = predict_regression(select_model(model_path), data)
+                result = predict_regression_V2(select_model(model_path), data)
             elif task == 'DL':
                 result = pred_and_decode_classifier(select_model(model_path), data, BHLD.DL, BHLD.DL_original)
             elif task == 'QTCN':
