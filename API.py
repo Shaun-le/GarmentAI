@@ -131,7 +131,7 @@ def main():
             model_path = model_map[task]
             if task in ['NS','TGGC']:
                 result = predict_regression(select_model(model_path),data)
-            if task in ['DMC','DMV']:
+            elif task in ['DMC','DMV']:
                 result = predict_regression_V2(select_model(model_path), data)
             elif task == 'DL':
                 result = pred_and_decode_classifier(select_model(model_path), data, TSPS.DL, TSPS.DL_original)
@@ -245,20 +245,21 @@ def main():
             result = jsonify({"Prediction": "Incorrect Task"})
     elif product == "BHLD":
         model_map = {
-            'NS': 'model/Quần/NS_Q.pkl',
+            'NS': 'model/BHLD/NS_BH.pkl',
             'DMC': 'model/BHLD/DMC_BH.pkl',
             'DMV': 'model/BHLD/DMV_BH.pkl',
-            'NCLD': 'model/Quần/NCLD_Q.pkl',
+            'NCLD': 'model/BHLD/NCLD_BH.pkl',
             'DMTB': 'model/BHLD/DMTB_BH.pkl',
             'DL': 'model/BHLD/DL_BH.pkl',
             'QTCN': 'model/BHLD/QTCN_BH.pkl',
             'TKDC': 'model/Quần/TKDC_Q.pkl',
             'CD': 'model/BHLD/CD_BH.pkl',
             'TCKT': 'model/BHLD/TCKT_BH.pkl',
+            'TGGC': 'model/BHLD/TGGC_BH.pkl'
         }
         if task in model_map:
             model_path = model_map[task]
-            if task == 'NS':
+            if task in ['NS','TGGC']:
                 result = predict_regression(select_model(model_path), data)
             elif task == 'DMC':
                 result = predict_regression_V2(select_model(model_path), data)
