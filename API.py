@@ -5,7 +5,7 @@ import pandas as pd
 import hashlib
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.preprocessing import LabelEncoder
-from labels import TSPS, SM, Q, J, BHLD
+from labels import TSPS, SM, Q, J, BHLD, Vest
 
 app = Flask(__name__)
 
@@ -222,7 +222,7 @@ def main():
             'DMTB': 'model/Jacket/DMTB_J.pkl',
             'DL': 'model/Jacket/DL_J.pkl',
             'QTCN': 'model/Jacket/QTCN_J.pkl',
-            'TKDC': 'model/Quần/TKDC_Q.pkl',
+            'TKDC': 'model/Jacket/TKDC_J.pkl',
             'CD': 'model/Jacket/CD_J.pkl',
             'TCKT': 'model/Jacket/TCKT_J.pkl',
         }
@@ -235,7 +235,7 @@ def main():
             elif task == 'QTCN':
                 result = pred_and_decode_classifier(select_model(model_path), data, J.QTCN, J.QTCN_original)
             elif task == 'TKDC':
-                result = pred_and_decode_classifier_TKDT(select_model(model_path), data, Q.TKDC_original)
+                result = pred_and_decode_classifier_TKDT(select_model(model_path), data, J.TKDC_original)
             elif task in ['CD', 'TCKT']:
                 result = pred_and_decode_classifier(select_model(model_path), data, getattr(J, task),
                                                     getattr(J, task + '_original'))
@@ -285,7 +285,7 @@ def main():
             'DMTB': 'model/Vest/DMTB_V.pkl',
             'DL': 'model/BHLD/DL_BH.pkl',
             'QTCN': 'model/BHLD/QTCN_BH.pkl',
-            'TKDC': 'model/Quần/TKDC_Q.pkl',
+            'TKDC': 'model/Vest/TKDC_V.pkl',
             'CD': 'model/BHLD/CD_BH.pkl',
             'TCKT': 'model/BHLD/TCKT_BH.pkl',
             'TGGC': 'model/Vest/TGGC_V.pkl'
@@ -301,7 +301,7 @@ def main():
             elif task == 'QTCN':
                 result = pred_and_decode_classifier(select_model(model_path), data, BHLD.QTCN, BHLD.QTCN_original)
             elif task == 'TKDC':
-                result = pred_and_decode_classifier_TKDT(select_model(model_path), data, Q.TKDC_original)
+                result = pred_and_decode_classifier_TKDT(select_model(model_path), data, Vest.TKDC_original)
             elif task in ['CD', 'TCKT']:
                 result = pred_and_decode_classifier(select_model(model_path), data, getattr(BHLD, task),
                                                     getattr(BHLD, task + '_original'))
