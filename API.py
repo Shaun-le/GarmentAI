@@ -33,6 +33,7 @@ def hash_encode(data):
 
 def pred_and_decode_classifier(model,data,label,list):
     data_transformed = hash_encode(data)
+    #print(data_transformed)
     pred = model.predict([data_transformed])[0]
     result = []
     for i, p in enumerate(pred):
