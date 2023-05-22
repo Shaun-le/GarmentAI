@@ -71,6 +71,13 @@ def predict_regression_V2(model,data):
     r = jsonify({"prediction": pred[0][0]})
     return r
 
+def predict_regression_V3(model,data):
+    data_transformed = extract_strings_and_numbers_from_dict(data)
+    #print(data_transformed)
+    pred = model.predict(data_transformed.values.reshape(1, -1))
+    r = jsonify({"prediction": float(pred[0][0])})
+    return r
+
 def predict_regression_multi(model,data):
     data_transformed = extract_strings_and_numbers_from_dict(data)
     pred = model.predict(data_transformed.values.reshape(1, -1))
@@ -132,8 +139,10 @@ def main():
             model_path = model_map[task]
             if task in ['NS','TGGC']:
                 result = predict_regression(select_model(model_path),data)
-            elif task in ['DMC','DMV']:
+            elif task == 'DMC':
                 result = predict_regression_V2(select_model(model_path), data)
+            elif task == 'DMV':
+                result = predict_regression_V3(select_model(model_path), data)
             elif task == 'DL':
                 result = pred_and_decode_classifier(select_model(model_path), data, TSPS.DL, TSPS.DL_original)
             elif task == 'QTCN':
