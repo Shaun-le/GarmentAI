@@ -207,7 +207,7 @@ def main():
             if task in ['NS','TGGC']:
                 result = predict_regression(select_model(model_path), data)
             elif task == 'DMV':
-                result = predict_regression_V2(select_model(model_path), data)
+                result = predict_regression_V3(select_model(model_path), data)
             elif task == 'DL':
                 result = pred_and_decode_classifier(select_model(model_path), data, Q.DL, Q.DL_original)
             elif task == 'QTCN':
