@@ -73,7 +73,6 @@ def predict_regression_V2(model,data):
 
 def predict_regression_V3(model,data):
     data_transformed = extract_strings_and_numbers_from_dict(data)
-    print(data_transformed)
     pred = model.predict(data_transformed.values.reshape(1, -1))
     r = jsonify({"prediction": float(pred[0][0])})
     return r
