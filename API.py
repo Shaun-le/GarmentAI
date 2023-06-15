@@ -292,7 +292,7 @@ def main():
             'DMV': 'model/BHLD/DMV_BH.pkl',
             'NCLD': 'model/Vest/NCLD_V.pkl',
             'DMTB': 'model/Vest/DMTB_V.pkl',
-            'DL': 'model/BHLD/DL_BH.pkl',
+            'DL': 'model/Vest/DL_V.pkl',
             'QTCN': 'model/BHLD/QTCN_BH.pkl',
             'TKDC': 'model/Vest/TKDC_V.pkl',
             'CD': 'model/BHLD/CD_BH.pkl',
@@ -306,7 +306,7 @@ def main():
             elif task == 'DMC':
                 result = predict_regression_V2(select_model(model_path), data)
             elif task == 'DL':
-                result = pred_and_decode_classifier(select_model(model_path), data, BHLD.DL, BHLD.DL_original)
+                result = pred_and_decode_classifier(select_model(model_path), data, Vest.DL, Vest.DL_original)
             elif task == 'QTCN':
                 result = pred_and_decode_classifier(select_model(model_path), data, BHLD.QTCN, BHLD.QTCN_original)
             elif task == 'TKDC':
