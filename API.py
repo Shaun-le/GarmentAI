@@ -261,7 +261,7 @@ def main():
             'DMTB': 'model/BHLD/DMTB_BH.pkl',
             'DL': 'model/BHLD/DL_BH.pkl',
             'QTCN': 'model/BHLD/QTCN_BH.pkl',
-            'TKDC': 'model/Quần/TKDC_Q.pkl',
+            'TKDC': 'model/BHLD/TKDC_BH.pkl',
             'CD': 'model/BHLD/CD_BH.pkl',
             'TCKT': 'model/BHLD/TCKT_BH.pkl',
             'TGGC': 'model/BHLD/TGGC_BH.pkl'
@@ -277,7 +277,7 @@ def main():
             elif task == 'QTCN':
                 result = pred_and_decode_classifier(select_model(model_path), data, BHLD.QTCN, BHLD.QTCN_original)
             elif task == 'TKDC':
-                result = pred_and_decode_classifier_TKDT(select_model(model_path), data, Q.TKDC_original)
+                result = pred_and_decode_classifier_TKDT(select_model(model_path), data, BHLD.TKDC_original)
             elif task in ['CD', 'TCKT']:
                 result = pred_and_decode_classifier(select_model(model_path), data, getattr(BHLD, task),
                                                     getattr(BHLD, task + '_original'))
@@ -295,7 +295,7 @@ def main():
             'DL': 'model/Vest/DL_V.pkl',
             'QTCN': 'model/Vest/QTCN_V.pkl',
             'TKDC': 'model/Vest/TKDC_V.pkl',
-            'CD': 'model/BHLD/CD_BH.pkl',
+            'CD': 'model/Vest/CD_V.pkl',
             'TCKT': 'model/BHLD/TCKT_BH.pkl',
             'TGGC': 'model/Vest/TGGC_V.pkl'
         }
@@ -312,8 +312,8 @@ def main():
             elif task == 'TKDC':
                 result = pred_and_decode_classifier_TKDT(select_model(model_path), data, Vest.TKDC_original)
             elif task in ['CD', 'TCKT']:
-                result = pred_and_decode_classifier(select_model(model_path), data, getattr(BHLD, task),
-                                                    getattr(BHLD, task + '_original'))
+                result = pred_and_decode_classifier(select_model(model_path), data, getattr(Vest, task),
+                                                    getattr(Vest, task + '_original'))
             else:
                 result = predict_regression_multi(select_model(model_path), data)
         else:
