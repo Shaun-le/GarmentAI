@@ -230,7 +230,7 @@ def main():
             'NCLD': 'model/Jacket/NCLD_J.pkl',
             'DMTB': 'model/Jacket/DMTB_J.pkl',
             'DL': 'model/Jacket/DL_J.pkl',
-            'QTCN': 'model/Jacket/QTCN_J.pkl',
+            'QTCN': 'model/Jacket/QTCN_JK_ofit_dt.pkl',
             'TKDC': 'model/Jacket/TKDC_J.pkl',
             'CD': 'model/Jacket/CD_J.pkl',
             'TCKT': 'model/Jacket/TCKT_J.pkl',
