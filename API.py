@@ -1,117 +1,13 @@
 # Import libraries
 from flask import Flask, request, jsonify
-import pickle
-import pandas as pd
-import hashlib
-from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.preprocessing import LabelEncoder
+from prepare_data import select_model
+from predict import predict_regression, predict_regression_multi, predict_regression_V2, predict_regression_V3, pred_and_decode_classifier, pred_and_decode_classifier_TKDT
 from labels import TSPS, SM, Q, J, BHLD, Vest
+from rules.product.rules_Q import QTCN_Q
+from rules.product.rules_SM import QTCN_SM
+from rules.product.rules_TSPS import QTCN_TSPS
 
 app = Flask(__name__)
-
-def hash_modulo(val, mod):
-    md5 = hashlib.md5()
-    md5.update(str(val).encode())
-    return int(md5.hexdigest(), 16) % mod
-
-class FeatureHasher(BaseEstimator, TransformerMixin):
-    def __init__(self, num_buckets: int):
-        self.num_buckets = num_buckets
-
-    def fit(self, X: pd.Series):
-        return self
-
-    def transform(self, X: pd.Series):
-        return X.apply(lambda x: hash_modulo(x, self.num_buckets))
-
-fh = FeatureHasher(num_buckets=1600)
-
-def hash_encode(data):
-    dt = pd.Series(extract_values(data))
-    data_transformed = fh.fit_transform(dt)
-    return data_transformed
-
-def pred_and_decode_classifier(model,data,label,list):
-    data_transformed = hash_encode(data)
-    #print(data_transformed)
-    pred = model.predict([data_transformed])[0]
-    result = []
-    for i, p in enumerate(pred):
-        if p == 1:
-            result.append(label[i])
-
-    for q in list:
-        if len(result) == len(q) and all(x in result for x in q) and all(x in q for x in result):
-            result = q
-            break
-
-    re = ", ".join(result)
-    r = jsonify({"prediction": re})
-    return r
-
-def pred_and_decode_classifier_TKDT(model,data,label):
-    data_transformed = pd.Series(extract_strings_and_numbers_from_dict(data))
-    pred = model.predict([data_transformed])[0]
-    encoder = LabelEncoder()
-    encoder.fit_transform(label)
-    re = encoder.inverse_transform([pred])
-    r = jsonify({"prediction": re[0]})
-    return r
-
-def predict_regression(model,data):
-    data_transformed = hash_encode(data)
-    pred = model.predict(data_transformed.values.reshape(1, -1))
-    r = jsonify({"prediction": pred[0]})
-    return r
-
-def predict_regression_V2(model,data):
-    data_transformed = extract_strings_and_numbers_from_dict(data)
-    #print(data_transformed)
-    pred = model.predict(data_transformed.values.reshape(1, -1))
-    r = jsonify({"prediction": pred[0][0]})
-    return r
-
-def predict_regression_V3(model,data):
-    data_transformed = extract_strings_and_numbers_from_dict(data)
-    pred = model.predict(data_transformed.values.reshape(1, -1))
-    r = jsonify({"prediction": float(pred[0][0])})
-    return r
-
-def predict_regression_multi(model,data):
-    data_transformed = extract_strings_and_numbers_from_dict(data)
-    pred = model.predict(data_transformed.values.reshape(1, -1))
-    re = []
-    for i in [round(float(i), 2) for i in pred[0]]:
-        re.append(i)
-    r = jsonify({"prediction": re})
-    return r
-
-def extract_values(data):
-    values = []
-    for key in data.keys():
-        if key.startswith("X"):
-            values.append(data[key])
-    return values
-
-def extract_strings_and_numbers_from_dict(my_dict):
-    string_list = []
-    number_list = []
-    for key, value in my_dict.items():
-        if key.startswith('X'):
-            if isinstance(value, str):
-                string_list.append(value)
-            elif isinstance(value, (int, float)):
-                number_list.append(value)
-    string_list_hash = fh.fit_transform(pd.Series(string_list))
-    number_list = pd.Series(number_list)
-    s  = string_list_hash.append(number_list)
-    return s
-
-
-def select_model(model_path:str):
-    with open(model_path, 'rb') as file:
-        model = pickle.load(file)
-    return model
 
 @app.route('/api', methods = ['POST'])
 def main():
@@ -129,7 +25,7 @@ def main():
             'NCLD': 'model/T-shirt/NCLD_TSPS.pkl',
             'DMTB': 'model/T-shirt/DMTB_TSPS.pkl',
             'DL': 'model/T-shirt/DL_TSPS.pkl',
-            'QTCN': 'model/T-shirt/QTCN_TSPS.pkl',
+            'QTCN': 'rules/models/T-shirt/QTCN_TSPS.pkl',
             'TKDC': 'model/T-shirt/TKDT_TSPS.pkl',
             'CD': 'model/T-shirt/CD_TSPS.pkl',
             'TCKT': 'model/T-shirt/TCKT_TSPS.pkl',
@@ -145,7 +41,7 @@ def main():
             elif task == 'DL':
                 result = pred_and_decode_classifier(select_model(model_path), data, TSPS.DL, TSPS.DL_original)
             elif task == 'QTCN':
-                result = pred_and_decode_classifier(select_model(model_path), data, TSPS.QTCN, TSPS.QTCN_original)
+                result = QTCN_TSPS(select_model(model_path), data, TSPS.QTCN)
             elif task == 'TKDC':
                 result = pred_and_decode_classifier_TKDT(select_model(model_path), data, TSPS.TKDT_original)
             elif task in ['CD', 'TCKT']:
@@ -163,7 +59,7 @@ def main():
             'NCLD': 'model/Sơ Mi/NCLD_SM.pkl',
             'DMTB': 'model/Sơ Mi/DMTB_SM.pkl',
             'DL': 'model/Sơ Mi/DL_SM.pkl',
-            'QTCN': 'model/Sơ Mi/QTCN_SM.pkl',
+            'QTCN': 'rules/models/Sơ Mi/QTCN_SM.pkl',
             'TKDC': 'model/Sơ Mi/TKDC_SM.pkl',
             'CD': 'model/Sơ Mi/CD_SM.pkl',
             'TCKT': 'model/Sơ Mi/TCKT_SM.pkl',
@@ -177,7 +73,7 @@ def main():
             elif task == 'DL':
                 result = pred_and_decode_classifier(select_model(model_path), data, SM.DL, SM.DL_original)
             elif task == 'QTCN':
-                result = pred_and_decode_classifier(select_model(model_path), data, SM.QTCN, SM.QTCN_original)
+                result = QTCN_SM(select_model(model_path), data, SM.QTCN)
             elif task == 'TKDC':
                 result = pred_and_decode_classifier_TKDT(select_model(model_path), data, SM.TKDC_original)
             elif task in ['CD', 'TCKT']:
@@ -196,7 +92,7 @@ def main():
             'NCLD': 'model/Quần/NCLD_Q.pkl',
             'DMTB': 'model/Quần/DMTB_Q.pkl',
             'DL': 'model/Quần/DL_Q.pkl',
-            'QTCN': 'model/Quần/QTCN_Q.pkl',
+            'QTCN': 'rules/models/Quần/QTCN_Q.pkl',
             'TKDC': 'model/Quần/TKDC_Q.pkl',
             'CD': 'model/Quần/CD_Q.pkl',
             'TCKT': 'model/Quần/TCKT_Q.pkl',
@@ -210,7 +106,7 @@ def main():
             elif task == 'DL':
                 result = pred_and_decode_classifier(select_model(model_path), data, Q.DL, Q.DL_original)
             elif task == 'QTCN':
-                result = pred_and_decode_classifier(select_model(model_path), data, Q.QTCN, Q.QTCN_original)
+                result = QTCN_Q(select_model(model_path), data, Q.QTCN)
             elif task == 'TKDC':
                 result = pred_and_decode_classifier_TKDT(select_model(model_path), data, Q.TKDC_original)
             elif task in ['CD', 'TCKT']:
