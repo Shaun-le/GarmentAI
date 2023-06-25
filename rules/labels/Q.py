@@ -59,9 +59,10 @@ x3_rules = {
     'Túi đùi khóa trần (bổ khuân)': 'E7.10B',
     'Túi đùi khóa trần có khuân (bổ khuân)': 'E7.10C',
     'Túi trước khóa trần có hầm (bổ khuân)': 'E7.11',
-    'Túi chéo khóa trần có hầm (bổ khuân)': 'E7.11A',
+    'Túi chéo khóa trần có hầm (bổ khuân)_1 túi': 'E7.11A',
     'Túi chéo đáp rời có khóa': 'E7.12',
     'Túi chéo đáp rời có khóa (bổ cầu mông với đáp sau)': 'E7.12A',
+    'Túi chéo khóa trần có hầm (bổ khuân)': 'E7.12B',
     'Túi chéo đáp rời khóa trần': 'E7.12C',
     'May túi đồng hồ': 'E7.13',
 }

@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify
 from prepare_data import select_model
 from predict import predict_regression, predict_regression_multi, predict_regression_V2, predict_regression_V3, pred_and_decode_classifier, pred_and_decode_classifier_TKDT
 from labels import TSPS, SM, Q, J, BHLD, Vest
+from rules.product.rules_J import QTCN_J
 from rules.product.rules_Q import QTCN_Q
 from rules.product.rules_SM import QTCN_SM
 from rules.product.rules_TSPS import QTCN_TSPS
@@ -126,7 +127,7 @@ def main():
             'NCLD': 'model/Jacket/NCLD_J.pkl',
             'DMTB': 'model/Jacket/DMTB_J.pkl',
             'DL': 'model/Jacket/DL_J.pkl',
-            'QTCN': 'model/Jacket/QTCN_JK_ofit_dt.pkl',
+            'QTCN': 'rules/models/Jacket/QTCN_J.pkl',
             'TKDC': 'model/Jacket/TKDC_J.pkl',
             'CD': 'model/Jacket/CD_J.pkl',
             'TCKT': 'model/Jacket/TCKT_J.pkl',
@@ -138,7 +139,7 @@ def main():
             elif task == 'DL':
                 result = pred_and_decode_classifier(select_model(model_path), data, J.DL, J.DL_original)
             elif task == 'QTCN':
-                result = pred_and_decode_classifier(select_model(model_path), data, J.QTCN, J.QTCN_original)
+                result = QTCN_J(select_model(model_path), data, J.QTCN)
             elif task == 'TKDC':
                 result = pred_and_decode_classifier_TKDT(select_model(model_path), data, J.TKDC_original)
             elif task in ['CD', 'TCKT']:
