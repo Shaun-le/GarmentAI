@@ -186,7 +186,8 @@ def main():
         model_map = {
             'NS': 'model/Vest/NS_V.pkl',
             'DMC': 'model/Vest/DMC_V.pkl',
-            'DMV': 'model/BHLD/DMV_BH.pkl',
+            'DMVC': 'model/Vest/DMVC_V.pkl',
+            'DMVL': 'model/Vest/DMVL_V.pkl',
             'NCLD': 'model/Vest/NCLD_V.pkl',
             'DMTB': 'model/Vest/DMTB_V.pkl',
             'DL': 'model/Vest/DL_V.pkl',
