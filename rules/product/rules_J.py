@@ -4,7 +4,6 @@ from rules.predict_for_rules import pred_and_decode_classifier
 import re
 def QTCN_J(model, data, label):
     output = pred_and_decode_classifier(model, data, label)
-
     rules = {
         'X2': x2_rules,
         'X3': x3_rules,
@@ -19,8 +18,14 @@ def QTCN_J(model, data, label):
 
     for key, rule in rules.items():
         value = data.get(key)
-        if value in rule:
+        if key == 'X3' and value in rule:
+            output = {x for x in output if not x.startswith('F13.6')}
             output.add(rule[value])
+        elif key in ['X5','X6'] and value == 'Không':
+            output = {x for x in output if not x.startswith('F5')}
+        elif value in rule:
+            output.add(rule[value])
+
     sorted_output = sorted(output, key=lambda x: (int(re.findall(r'\d+', x)[0]), x))
     out = ', '.join(sorted_output)
     return jsonify({"prediction": str(out)})

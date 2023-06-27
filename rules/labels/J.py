@@ -56,8 +56,26 @@ x2_rules = {
 }
 
 x3_rules = {
-    'Nẹp liền có dựng/bông': 'F3.1',
-    'Nẹp rời có dựng/bông': 'F3.2',
+    'Tra khóa nẹp áo 1 lớp khoá trần, có bọc viền chân khóa nẹp': 'F13.6.1',
+    'Tra khóa nẹp áo 1 lớp có viền không có nẹp đỡ , có bọc viền chân khóa nẹp': 'F13.6.1E',
+    'Tra khóa nẹp áo 1 lớp, có bọc viền chân khóa nẹp, (cỏ mũ, cửa mũ viền chun)': 'F13.6.1C',
+    'Tra khóa nẹp áo 1 lớp (hở răng, có nẹp đỡ)': 'F13.6.1A',
+    'Tra khóa nẹp áo 1 lớp (có viền, có nẹp đỡ)': 'F13.6.1B',
+    'Tra khóa nẹp áo 1 lớp (hở răng, có nẹp che': 'F13.6.1D',
+    'Tra khóa nẹp áo 2 lớp (hở răng, không có nẹp che, nẹp đỡ)': 'F13.6.2',
+    'Tra khóa nẹp áo 2 lớp (hở răng, có nẹp đỡ)': 'F13.6.2 A',
+    'Tra khóa nẹp áo 2 lớp (có viền che, nẹp đỡ)': 'F13.6.3',
+    'Tra khóa nẹp áo 2 lớp (có viền che)': 'F13.6.3A',
+    'Tra khoá có cài nẹp che có cúc dập, không có nẹp đỡ': 'F13.6.4',
+    'Tra khóa có dán nẹp che có nhám  không có nẹp đỡ': 'F13.6.5',
+    'Tra khoá có nẹp che có cúc dập, không có nẹp đỡ': 'F13.6.4A',
+    'Tra khóa có dán nẹp che có cúc ẩn (nẹp trần trang trí, không thấm lót), có nẹp đỡ quấn viền': 'F13.6.6',
+    'Tra khóa có dán nẹp che có cúc, có nẹp đỡ': 'F13.6.6A',
+    'Tra khoá có cài nẹp che, nẹp đỡ': 'F13.6.7',
+    'Tra khoá nẹp (nẹp che liền thân)': 'F13.6.8',
+    'May nẹp áo (nẹp may lộn) Đập cúc': 'F13.6.9',
+    'May nẹp áo rời may giống áo sơ mi không quay lộn đầu nẹp': 'F13.6.10',
+    'May nẹp áo rời may giống áo sơ mi  quay lộn đầu nẹp': 'F13.6.11'
 }
 
 x5x6_rules = {
