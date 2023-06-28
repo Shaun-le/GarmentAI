@@ -16,7 +16,16 @@ def QTCN_Q(model, data, label):
 
     for key, rule in rules.items():
         value = data.get(key)
-        if value in rule:
+        if key == 'X3' and value == 'Không':
+            output = {x for x in output if not x.startswith('E7')}
+        elif key == 'X4' and value == 'Không':
+            output = {x for x in output if not x.startswith('E9')}
+        elif key == 'X4' and value in rule:
+            output = {x for x in output if not x.startswith('E9')}
+            output.add(rule[value])
+        elif key == 'X5' and value == 'Không':
+            output = {x for x in output if not x.startswith('E8')}
+        elif value in rule:
             output.add(rule[value])
     sorted_output = sorted(output, key=lambda x: (int(re.findall(r'\d+', x)[0]), x))
     out = ', '.join(sorted_output)

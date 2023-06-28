@@ -17,7 +17,12 @@ def QTCN_SM(model, data, label):
 
     for key, rule in rules.items():
         value = data.get(key)
-        if value in rule:
+        if key == 'X6' and value == 'Không túi':
+            output = {x for x in output if not x.startswith('D4')}
+        elif key == 'X6' and value in rule:
+            output = {x for x in output if not x.startswith('D4')}
+            output.add(rule[value])
+        elif value in rule:
             output.add(rule[value])
     sorted_output = sorted(output, key=lambda x: (int(re.findall(r'\d+', x)[0]), x))
     out = ', '.join(sorted_output)

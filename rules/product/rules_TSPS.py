@@ -16,7 +16,17 @@ def QTCN_TSPS(model,data,label):
 
     for key, rule in rules.items():
         value = data.get(key)
-        if value in rule:
+        if key == 'X5' and value == 'Không':
+            output = {x for x in output if not x.startswith('G3')}
+        elif key == 'X6' and value == 'Không':
+            output = {x for x in output if not x.startswith('G2')}
+        elif key == 'X5' and value in rule:
+            output = {x for x in output if not x.startswith('G3')}
+            output.add(rule[value])
+        elif key == 'X6' and value in rule:
+            output = {x for x in output if not x.startswith('G2')}
+            output.add(rule[value])
+        elif value in rule:
             output.add(rule[value])
     sorted_output = sorted(output, key=lambda x: (int(re.findall(r'\d+', x)[0]), x))
     out = ', '.join(sorted_output)
