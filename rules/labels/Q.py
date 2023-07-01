@@ -160,7 +160,7 @@ x6_rules = {
     'Cửa quần của quần nhiều lớp': 'E6.4'
 }
 
-x10_rules = {
+'''x10_rules = {
     'May bổ ngang ống, vắt sổ chập': 'E10.1A',
     'May cầu mông cới TS, vắt sổ chập': 'E10.1B',
     'May bổ ngang ống': 'E10.1C',
@@ -200,4 +200,24 @@ x10_rules = {
     'May đệm mông, đệm gối': 'E10.2W',
     'May cầu mông+mí diễu': 'E10.2R',
     'May ốp đáp dọc': 'E10.2T'
+}'''
+
+x10_rules = {
+    'Gấu chắn gió': 'F13.1',
+    'Gấu bo dệt': 'F13.2',
+    'Gấu bo chun rời': 'F13.3',
+    'Gấu có đáp rời': 'F13.3A',
+    'Gấu có dây luồn': 'F13.3B',
+    'Gấu đáp rời có dây luồn': 'F13.3C',
+    'Gấu đáp rời có chun': 'F13.3D',
+    'Gấu gập liền': 'F13.4',
+    'Gấu sẻ tà': 'F13.4A',
+    'Gấu liền may vắt gấu': 'F13.4B',
+    'Gấu có dây luồn (dập oze)': 'F13.4C',
+    'Gấu gập liền may chần đè': 'F13.4D',
+    'Gấu liền có đáp chắn gió': 'F13.4E',
+    'Gấu gập liền+chặn dây cạp': 'F13.4F',
+    'Gấu không may (để xoải)': 'F13.4G',
+    'Gấu liền chần đè, có đáp chắn gió có khóa': 'F13.5',
+    'Gấu liền chần đè, có đáp chắn gió có khóa+dây gấu': 'F13.5A'
 }

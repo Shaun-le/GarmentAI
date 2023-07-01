@@ -11,18 +11,34 @@ def QTCN_J(model, data, label):
         'X6': x5x6_rules,
         'X7': x7_rules,
         'X8': x8_rules,
-        'X10': x10_rules,
         'X13': x13_rules,
         'X14': x14_rules,
     }
-
+    output = {x for x in output if not x.startswith('F5')}
     for key, rule in rules.items():
         value = data.get(key)
-        if key == 'X3' and value in rule:
+        if key == 'X5' and value in rule:
+            output.add(rule[value])
+        elif key == 'X6' and value in rule:
+            output.add(rule[value])
+        elif key == 'X2' and value in rule:
+            output = {x for x in output if not x.startswith('F2')}
+            output.add(rule[value])
+        elif key == 'X3' and value in rule:
             output = {x for x in output if not x.startswith('F13.6')}
             output.add(rule[value])
-        elif key in ['X5','X6'] and value == 'Không':
-            output = {x for x in output if not x.startswith('F5')}
+        elif key == 'X7' and value in rule:
+            output = {x for x in output if not x.startswith('F7')}
+            output.add(rule[value])
+        elif key == 'X8' and value in rule:
+            output = {x for x in output if not x.startswith('F8')}
+            output.add(rule[value])
+        elif key == 'X13' and value in rule:
+            output = {x for x in output if not x.startswith('F9')}
+            output.add(rule[value])
+        elif key == 'X14' and value in rule:
+            output = {x for x in output if not x.startswith('F4')}
+            output.add(rule[value])
         elif value in rule:
             output.add(rule[value])
 

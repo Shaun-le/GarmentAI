@@ -17,10 +17,22 @@ def QTCN_SM(model, data, label):
 
     for key, rule in rules.items():
         value = data.get(key)
-        if key == 'X6' and value == 'Không túi':
+        if key == 'X2' and value in rule:
+            output = {x for x in output if not x.startswith('D13')}
+            output.add(rule[value])
+        elif key == 'X6' and value == 'Không túi':
             output = {x for x in output if not x.startswith('D4')}
         elif key == 'X6' and value in rule:
             output = {x for x in output if not x.startswith('D4')}
+            output.add(rule[value])
+        elif key == 'X5' and value in rule:
+            output = {x for x in output if not x.startswith('D2')}
+            output.add(rule[value])
+        elif key == 'X7' and value in rule:
+            output = {x for x in output if not x.startswith('D3')}
+            output.add(rule[value])
+        elif key == 'X10' and value in rule:
+            output = {x for x in output if not x.startswith('D6')}
             output.add(rule[value])
         elif value in rule:
             output.add(rule[value])

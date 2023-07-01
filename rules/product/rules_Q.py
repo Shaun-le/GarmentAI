@@ -16,8 +16,14 @@ def QTCN_Q(model, data, label):
 
     for key, rule in rules.items():
         value = data.get(key)
-        if key == 'X3' and value == 'Không':
+        if key == 'X2' and value in rule:
+            output = {x for x in output if not x.startswith('E11')}
+            output.add(rule[value])
+        elif key == 'X3' and value == 'Không':
             output = {x for x in output if not x.startswith('E7')}
+        elif key == 'X3' and value in rule:
+            output = {x for x in output if not x.startswith('E7')}
+            output.add(rule[value])
         elif key == 'X4' and value == 'Không':
             output = {x for x in output if not x.startswith('E9')}
         elif key == 'X4' and value in rule:
@@ -25,6 +31,15 @@ def QTCN_Q(model, data, label):
             output.add(rule[value])
         elif key == 'X5' and value == 'Không':
             output = {x for x in output if not x.startswith('E8')}
+        elif key == 'X5' and value in rule:
+            output = {x for x in output if not x.startswith('E8')}
+            output.add(rule[value])
+        elif key == 'X6' and value in rule:
+            output = {x for x in output if not x.startswith('E6')}
+            output.add(rule[value])
+        elif key == 'X10' and value in rule:
+            output = {x for x in output if not x.startswith('E13')}
+            output.add(rule[value])
         elif value in rule:
             output.add(rule[value])
     sorted_output = sorted(output, key=lambda x: (int(re.findall(r'\d+', x)[0]), x))
