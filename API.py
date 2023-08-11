@@ -199,7 +199,7 @@ def main():
         }
         if task in model_map:
             model_path = model_map[task]
-            if task == 'NS':
+            if task in ['NS','TGGC']:
                 result = predict_regression(select_model(model_path), data)
             elif task == 'DMC':
                 result = predict_regression_V2(select_model(model_path), data)
