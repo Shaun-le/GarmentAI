@@ -194,7 +194,7 @@ def main():
             'QTCN': 'model/Vest/QTCN_V.pkl',
             'TKDC': 'model/Vest/TKDC_V.pkl',
             'CD': 'model/Vest/CD_V.pkl',
-            'TCKT': 'model/BHLD/TCKT_BH.pkl',
+            'TCKT': 'model/Vest/TCKT_V.pkl',
             'TGGC': 'model/Vest/TGGC_V.pkl'
         }
         if task in model_map:
