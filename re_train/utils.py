@@ -24,7 +24,7 @@ def read_data(data):
 def trans_output(score, y, is_regression = True):
     if is_regression:
         return jsonify({"prediction": f"Hoàn thành: Loss = {score:.2f} (Tỷ lệ sai số: {score / y.mean() * 100:.2f}%)"})
-    return jsonify({"prediction": f"Hoàn thành: Độ chính xác = {score:.2f}%"})
+    return jsonify({"prediction": f"Hoàn thành: Độ chính xác = {score*100:.2f}%"})
 
 def create_dummy_variables(df, column_name):
     values = set()

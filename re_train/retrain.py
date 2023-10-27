@@ -15,28 +15,29 @@ def main():
         if task == 'NS':
             X = df.drop(columns=['Y']).values
             y = df['Y'].values
-            loss = train_with_Kfolds(X, y, 'models/NS_TSPS.pkl', True, False)
+            loss = train_with_Kfolds(X, y, 'D:/May/GarmentAI/models/NS_TSPS.pkl', True, False)
             result = trans_output(loss, y, True)
         elif task == 'DMC':
             X = df.drop(columns=['Y1', 'Y2', 'Y3', 'Y4']).values
             y = df['Y1'].values
-            loss = train_with_Kfolds(X, y, 'models/DMC_TSPS.pkl', True, False)
+            loss = train_with_Kfolds(X, y, 'D:/May/GarmentAI/models/DMC_TSPS.pkl', True, False)
             result = trans_output(loss, y, True)
         elif task == 'QTCN':
             df = create_dummy_variables(df, 'Y')
             X = df.iloc[:,:9].values
             y = df.iloc[:,9:].values
-            score = train_with_Kfolds(X, y, 'models/QTCN_TSPS.pkl', False, True)
+            score = train_with_Kfolds(X, y, 'D:/May/GarmentAI/models/QTCN_TSPS.pkl', False, True)
+            print(score)
             result = trans_output(score, y, False)
     elif product == "SM":
         if task == "QTCN":
             print(df)
-    elif product == 'Jacket':
+    elif product == 'J':
         if task == 'QTCN':
             df = create_dummy_variables(df, 'Y')
             X = df.iloc[:,:15].values
             y = df.iloc[:,15:].values
-            score = train_with_Kfolds(X, y, 'models/QTCN_J.pkl', False, True)
+            score = train_with_Kfolds(X, y, 'D:/May/GarmentAI/models/QTCN_J.pkl', False, True)
             result = trans_output(score, y, False)
     return result
 
@@ -45,7 +46,7 @@ def deploy():
     data = request.get_json(force=True)
     product = data.get('Product')
     task = data.get('Task')
-    if product == "Jacket":
+    if product == "J":
         if task == "QTCN":
             shutil.move('models/QTCN_J.pkl', 'D:/May/GarmentAI/model')
     return jsonify({"prediction": f"Mô Hình Đã Cập Nhật"})
